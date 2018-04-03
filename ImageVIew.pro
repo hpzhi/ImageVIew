@@ -25,12 +25,18 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        widget.cpp
+        widget.cpp \
+    picturelistdialog.cpp \
+    pictureshowdialog.cpp
 
 HEADERS += \
-        widget.h
+        widget.h \
+    picturelistdialog.h \
+    pictureshowdialog.h
 
 
 FORMS += \
-        widget.ui
+        widget.ui \
+    picturelistdialog.ui \
+    pictureshowdialog.ui
 
