@@ -90,19 +90,36 @@ void PictureShowDialog::mouseMoveEvent(QMouseEvent *e)
     QRect rect1,rect2,rect3,rect4;
     if(ui->widgetTitle->isHidden())
     {
-        rect1 = QRect(ui->pushButton_Forward->pos().x(),ui->pushButton_Forward->pos().y(),ui->pushButton_Forward->size().width(),ui->pushButton_Forward->size().height());
-        rect2 = QRect(ui->pushButton_Fullscreen->pos().x(),ui->pushButton_Fullscreen->pos().y(),ui->pushButton_Fullscreen->size().width(),ui->pushButton_Fullscreen->size().height());
-        rect3 = QRect(ui->pushButton_Backward->pos().x(),ui->pushButton_Backward->pos().y(),ui->pushButton_Backward->size().width(),ui->pushButton_Backward->size().height());
-        rect4 = QRect(ui->pushButton_Delete->pos().x(),ui->pushButton_Delete->pos().y(),ui->pushButton_Delete->size().width(),ui->pushButton_Delete->size().height());
+        rect1 = QRect(ui->pushButton_Forward->pos().x(), ui->pushButton_Forward->pos().y(),
+                      ui->pushButton_Forward->size().width(), ui->pushButton_Forward->size().height());
+
+        rect2 = QRect(ui->pushButton_Fullscreen->pos().x(), ui->pushButton_Fullscreen->pos().y(),
+                      ui->pushButton_Fullscreen->size().width(), ui->pushButton_Fullscreen->size().height());
+
+        rect3 = QRect(ui->pushButton_Backward->pos().x(), ui->pushButton_Backward->pos().y(),
+                      ui->pushButton_Backward->size().width(), ui->pushButton_Backward->size().height());
+
+        rect4 = QRect(ui->pushButton_Delete->pos().x(), ui->pushButton_Delete->pos().y(),
+                      ui->pushButton_Delete->size().width(), ui->pushButton_Delete->size().height());
     }
+
     else
     {
-        rect1 = QRect(ui->pushButton_Forward->pos().x(),ui->pushButton_Forward->pos().y() + ui->widgetTitle->height(),ui->pushButton_Forward->size().width(),ui->pushButton_Forward->size().height());
-        rect2 = QRect(ui->pushButton_Fullscreen->pos().x(),ui->pushButton_Fullscreen->pos().y() + ui->widgetTitle->height(),ui->pushButton_Fullscreen->size().width(),ui->pushButton_Fullscreen->size().height());
-        rect3 = QRect(ui->pushButton_Backward->pos().x(),ui->pushButton_Backward->pos().y() + ui->widgetTitle->height(),ui->pushButton_Backward->size().width(),ui->pushButton_Backward->size().height());
-        rect4 = QRect(ui->pushButton_Delete->pos().x(),ui->pushButton_Delete->pos().y() + ui->widgetTitle->height(),ui->pushButton_Delete->size().width(),ui->pushButton_Delete->size().height());
+        rect1 = QRect(ui->pushButton_Forward->pos().x(), ui->pushButton_Forward->pos().y() + ui->widgetTitle->height(),
+                      ui->pushButton_Forward->size().width(), ui->pushButton_Forward->size().height());
+
+        rect2 = QRect(ui->pushButton_Fullscreen->pos().x(), ui->pushButton_Fullscreen->pos().y() + ui->widgetTitle->height(),
+                      ui->pushButton_Fullscreen->size().width(), ui->pushButton_Fullscreen->size().height());
+
+        rect3 = QRect(ui->pushButton_Backward->pos().x(), ui->pushButton_Backward->pos().y() + ui->widgetTitle->height(),
+                      ui->pushButton_Backward->size().width(), ui->pushButton_Backward->size().height());
+
+        rect4 = QRect(ui->pushButton_Delete->pos().x(), ui->pushButton_Delete->pos().y() + ui->widgetTitle->height(),
+                      ui->pushButton_Delete->size().width(), ui->pushButton_Delete->size().height());
     }
-    if(rect1.contains(e->pos()) || rect2.contains(e->pos()) || rect3.contains(e->pos()) || rect4.contains(e->pos()))
+
+    if(rect1.contains(e->pos()) || rect2.contains(e->pos()) ||
+            rect3.contains(e->pos()) || rect4.contains(e->pos()))
     {
         timer->stop();
         e->accept();
