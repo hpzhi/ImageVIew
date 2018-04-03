@@ -41,3 +41,6 @@ FORMS += \
     picturelistdialog.ui \
     pictureshowdialog.ui
 
+RESOURCES += \
+    resource.qrc
+
