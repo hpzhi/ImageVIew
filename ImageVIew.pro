@@ -32,7 +32,8 @@ SOURCES += \
 HEADERS += \
         widget.h \
     picturelistdialog.h \
-    pictureshowdialog.h
+    pictureshowdialog.h \
+    common.h
 
 
 FORMS += \

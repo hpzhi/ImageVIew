@@ -1,21 +1,29 @@
 #include "pictureshowdialog.h"
 #include "ui_pictureshowdialog.h"
-#include "iconhelper.h"
 #include "picturelistdialog.h"
-#include "messagedialog.h"
-#include "common.h"
-#include <QtGui/QApplication>
 #include <QResizeEvent>
 #include <QMouseEvent>
 #include <QDebug>
 #include <QRect>
+
+#define test
+#ifndef test
+
+#include "messagedialog.h"
+#include "common.h"
+#include <QtGui/QApplication>
+#include "iconhelper.h"
+
+#endif
 
 #define LAST 1
 #define NEXT 2
 #define FULL 3
 #define NORMAL 4
 #define DELE 5
-
+const char* PICPATH = "";
+const char* THUMBPATH = "";
+const int SCREENW = 1920;
 //#define PICPATH  "/mnt/udisk/DCIM/"
 #define ImageTitle "picture"
 PictureShowDialog::PictureShowDialog(QWidget *parent) :
@@ -25,8 +33,8 @@ PictureShowDialog::PictureShowDialog(QWidget *parent) :
     ui->setupUi(this);
 
     //设置图标
-    IconHelper::Instance()->SetIcon(ui->labelIcon, QChar(0xf03e), 20);//0xf03e
-    IconHelper::Instance()->SetIcon(ui->pushButtonClose, QChar(0xf00d), 20);//0xf00d
+//    IconHelper::Instance()->SetIcon(ui->labelIcon, QChar(0xf03e), 20);//0xf03e
+//    IconHelper::Instance()->SetIcon(ui->pushButtonClose, QChar(0xf00d), 20);//0xf00d
 
     //设置窗体标题栏隐藏
     this->setWindowFlags(Qt::FramelessWindowHint);
@@ -132,7 +140,7 @@ void PictureShowDialog::mousePressEvent(QMouseEvent *e)
     }
 }
 
-void PictureShowDialog::mouseReleaseEvent(QMouseEvent *e)
+void PictureShowDialog::mouseReleaseEvent(QMouseEvent *)
 {
     bePressed = false;
 #ifdef QDEBUG_CAMCONTROL
@@ -182,6 +190,7 @@ void PictureShowDialog::on_pushButton_Fullscreen_clicked()
 
 void PictureShowDialog::on_pushButton_Delete_clicked()
 {
+#ifndef test
     MessageDialog msgDlg;
     msgDlg.setTitle(ICON_MSG,ICONSIZE_18,tr("Warning"));
     msgDlg.setMessage(tr("Do You Delete The Selected File?"));
@@ -189,6 +198,7 @@ void PictureShowDialog::on_pushButton_Delete_clicked()
     {
         handleSignal(DELE);
     }
+#endif
 }
 
 // 随着窗体变化而设置背景，无须用户调用

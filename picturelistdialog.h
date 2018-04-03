@@ -38,13 +38,12 @@ protected:
     void mouseReleaseEvent(QMouseEvent *e);
 
 private:
-
+    Ui::PictureListDialog *ui;
     bool isSingle;
     bool isDeltAll;
     QString newName;
     QString groupCalib;
     QString groupName;
-    Ui::PictureListDialog *ui;
     QListWidgetItem *pItem;
     QPoint mousePoint;
     bool isExport;

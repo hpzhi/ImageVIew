@@ -1,8 +1,6 @@
 #include "picturelistdialog.h"
 #include "ui_picturelistdialog.h"
-#include "iconhelper.h"
-#include "messagedialog.h"
-#include "common.h"
+
 #include <QListWidgetItem>
 #include <QMouseEvent>
 #include <QDebug>
@@ -13,7 +11,14 @@
 #include <QModelIndex>
 #include <QFileSystemModel>
 #include <stdio.h>
+#include "common.h"
+
+#define test
+#ifndef test
+#include "iconhelper.h"
+#include "messagedialog.h"
 #include "itemeditdialog.h"
+#endif
 #define LAST 1
 #define NEXT 2
 #define FULL 3
@@ -31,7 +36,7 @@ PictureListDialog::PictureListDialog(QWidget *parent) :
 {
     initUI();
     ShowFileType = PictureFile;
-    IconHelper::Instance()->SetIcon(ui->label_Ico, QChar(0xf03e), 20);//0xf03e
+//    IconHelper::Instance()->SetIcon(ui->label_Ico, QChar(0xf03e), 20);//0xf03e
     pshowDlg = new PictureShowDialog();
     connect(pshowDlg, SIGNAL(updateAlbum(int)), this, SLOT(dele_picture(int)));
     connect(pshowDlg, SIGNAL(sig_FullScreen(QString)), this, SLOT(FullScreen(QString)));
@@ -85,7 +90,7 @@ void PictureListDialog::initUI()
 {
     ui->setupUi(this);
     //设置图标
-    IconHelper::Instance()->SetIcon(ui->pushButton_Close, QChar(0xf00d), 20);//0xf00d
+//    IconHelper::Instance()->SetIcon(ui->pushButton_Close, QChar(0xf00d), 20);//0xf00d
 
     //设置窗体标题栏隐藏
     this->setWindowFlags(Qt::FramelessWindowHint);
@@ -147,6 +152,7 @@ void PictureListDialog::deleteItems()
     QList<QListWidgetItem *> pitems = ui->listWidget->selectedItems();
 
     QMutableListIterator<QListWidgetItem *> i(pitems);
+#ifndef test
     MessageDialog msgDlg;
     msgDlg.setTitle(ICON_MSG,ICONSIZE_18,tr("Warning"));
 
@@ -173,6 +179,7 @@ void PictureListDialog::deleteItems()
         }
         qDeleteAll(pitems);
     }
+#endif
 }
 
 PictureListDialog::~PictureListDialog()
@@ -211,7 +218,7 @@ void PictureListDialog::mousePressEvent(QMouseEvent *e)
     }
 }
 
-void PictureListDialog::mouseReleaseEvent(QMouseEvent *e)
+void PictureListDialog::mouseReleaseEvent(QMouseEvent *)
 {
 
 #ifdef QDEBUG_CAMCONTROL
@@ -243,7 +250,7 @@ void PictureListDialog::dispFile(QString filename)
 }
 
 
-void PictureListDialog::on_listWidget_customContextMenuRequested(QPoint pos)
+void PictureListDialog::on_listWidget_customContextMenuRequested(QPoint )
 {
     QMenu menu(this);
     if(ShowFileType == PictureFile)

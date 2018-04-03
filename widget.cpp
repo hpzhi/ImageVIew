@@ -1,5 +1,6 @@
 #include "widget.h"
 #include "ui_widget.h"
+#include "picturelistdialog.h"
 
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
@@ -15,5 +16,6 @@ Widget::~Widget()
 
 void Widget::on_pushButton_clicked()
 {
-
+    PictureListDialog list;
+    list.exec();
 }
