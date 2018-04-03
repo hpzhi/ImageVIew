@@ -21,8 +21,8 @@
 #define FULL 3
 #define NORMAL 4
 #define DELE 5
-const char* PICPATH = "";
-const char* THUMBPATH = "";
+const char* PICPATH = ":/resource/images";
+const char* THUMBPATH = ":/resource/images/thumb";
 const int SCREENW = 1920;
 //#define PICPATH  "/mnt/udisk/DCIM/"
 #define ImageTitle "picture"
