@@ -23,7 +23,7 @@
 #define DELE 5
 
 const char* PICPATH = "../ImageVIew/Images/";
-const char* THUMBPATH = "../ImageVIew/Images/thumb/";
+const char* THUMBPATH = "../ImageVIew/Images/thumb";
 const int SCREENW = 1920;
 
 #define ImageTitle "picture"

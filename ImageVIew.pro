@@ -27,19 +27,22 @@ SOURCES += \
         main.cpp \
         widget.cpp \
     picturelistdialog.cpp \
-    pictureshowdialog.cpp
+    pictureshowdialog.cpp \
+    inputdialog.cpp
 
 HEADERS += \
         widget.h \
     picturelistdialog.h \
     pictureshowdialog.h \
-    common.h
+    common.h \
+    inputdialog.h
 
 
 FORMS += \
         widget.ui \
     picturelistdialog.ui \
-    pictureshowdialog.ui
+    pictureshowdialog.ui \
+    inputdialog.ui
 
 RESOURCES += \
     resource.qrc

@@ -19,15 +19,7 @@ public:
      PictureListDialog(QString path, QString filter, bool isExport, QWidget *parent = 0);
     ~PictureListDialog();
     QStringList getImgFile(QString Path);
-    void showThumbnail();
-    void dispFile(QString filename);
     void initUI();
-//    QStringList getTextFilesName();
-//    void exportFiles();
-//    void readTempFile(QString strFile);
-//    void renameFile(QString);
-//    void writeTempFile(QString strFile);
-//    void importFiles();
 
 signals:
     void fileName(QStringList);
@@ -70,6 +62,7 @@ private slots:
     void dele_picture(int row);
     void FullScreen(QString);
     void NormalScreen(QString);
+    void on_actionRename_triggered();
 };
 
 #endif // PICTURELISTDIALOG_H
