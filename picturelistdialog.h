@@ -70,10 +70,6 @@ private slots:
     void dele_picture(int row);
     void FullScreen(QString);
     void NormalScreen(QString);
-
-//    void UpdateThumb(QString,QString);
-//    void showPicture(QListWidgetItem *item );
-//    void sigProcess(int);
 };
 
 #endif // PICTURELISTDIALOG_H

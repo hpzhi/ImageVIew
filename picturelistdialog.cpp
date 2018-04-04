@@ -36,7 +36,6 @@ PictureListDialog::PictureListDialog(QWidget *parent) :
 {
     initUI();
     ShowFileType = PictureFile;
-//    IconHelper::Instance()->SetIcon(ui->label_Ico, QChar(0xf03e), 20);//0xf03e
     pshowDlg = new PictureShowDialog();
     connect(pshowDlg, SIGNAL(updateAlbum(int)), this, SLOT(dele_picture(int)));
     connect(pshowDlg, SIGNAL(sig_FullScreen(QString)), this, SLOT(FullScreen(QString)));
@@ -54,36 +53,27 @@ PictureListDialog::PictureListDialog(QString path, QString filter, bool isExport
          QDialog(parent), ui(new Ui::PictureListDialog), isDeltAll(false)
 {
     initUI();
-    ShowFileType = TextFile;
     suffix = filter.mid(1);
-    if(isExport)
-    {
-        ui->label_Ico->setStyleSheet("image: url(:/res/images/export.png)");
-        ui->actionExOrImFiles->setText(tr("Export Udisk"));
-        ui->label_Title->setText(tr("Export Udisk"));
-    }
-    else
-    {
-        ui->label_Ico->setStyleSheet( "image: url(:/res/images/import.png)");
-        ui->actionExOrImFiles->setText(tr("Import Camera"));
-        ui->label_Title->setText(tr("Import Camera"));
-    }
-
     this->isExport = isExport;
+    qDebug() << path;
     QString expFile(path);
     QDir expFileDir(expFile, filter);
+    if(expFileDir.isEmpty())
+    {
+        qDebug("empty");
+    }
     QFileInfoList list = expFileDir.entryInfoList();
-
+    qDebug("list = %d", list.count());
     for(int nIndex = 0; nIndex < list.size(); ++nIndex)
     {
         //获取图片
         QFileInfo fileInfo = list.at(nIndex);
         QString fileName = fileInfo.completeBaseName();
-        //basename();
-        dispFile(fileName);
+        UpdateThumb(path, fileName);
     }
 
     selfileNames.clear();
+
 }
 
 void PictureListDialog::initUI()
@@ -226,7 +216,7 @@ void PictureListDialog::mouseReleaseEvent(QMouseEvent *)
 #endif
 }
 
-void PictureListDialog::UpdateThumb(QString filepath,QString filename)
+void PictureListDialog::UpdateThumb(QString filepath, QString filename)
 {
     ShowFileType = PictureFile;
     pItem = new QListWidgetItem(QIcon(filepath + filename), filename);
