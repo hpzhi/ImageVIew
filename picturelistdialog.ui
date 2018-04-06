@@ -56,7 +56,16 @@
    <property name="spacing">
     <number>0</number>
    </property>
-   <property name="margin">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
     <number>0</number>
    </property>
    <item>
@@ -267,7 +276,16 @@
       <string notr="true"/>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_3">
-      <property name="margin">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
        <number>0</number>
       </property>
       <item>
@@ -598,7 +616,16 @@
          <property name="spacing">
           <number>0</number>
          </property>
-         <property name="margin">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
           <number>0</number>
          </property>
          <item>
@@ -772,6 +799,18 @@ background-color: rgb(251, 255, 255);
         <property name="sortingEnabled">
          <bool>true</bool>
         </property>
+        <item>
+         <property name="text">
+          <string>New Item</string>
+         </property>
+         <property name="icon">
+          <iconset resource="resource.qrc">
+           <normaloff>:/Images/0001.png</normaloff>:/Images/0001.png</iconset>
+         </property>
+         <property name="flags">
+          <set>ItemIsSelectable|ItemIsEditable|ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+         </property>
+        </item>
        </widget>
       </item>
      </layout>
@@ -828,7 +867,14 @@ background-color: rgb(251, 255, 255);
     <string>DeleteAll</string>
    </property>
   </action>
+  <action name="actionRename">
+   <property name="text">
+    <string>Rename</string>
+   </property>
+  </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

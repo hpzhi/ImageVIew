@@ -1,7 +1,7 @@
 #include "widget.h"
 #include "ui_widget.h"
 #include "picturelistdialog.h"
-
+#include "common.h"
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget)
@@ -16,6 +16,6 @@ Widget::~Widget()
 
 void Widget::on_pushButton_clicked()
 {
-    PictureListDialog list;
+    PictureListDialog list(PICPATH, "*.png", false);
     list.exec();
 }

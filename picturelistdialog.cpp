@@ -12,6 +12,7 @@
 #include <QFileSystemModel>
 #include <stdio.h>
 #include "common.h"
+#include "inputdialog.h"
 
 #define test
 #ifndef test
@@ -36,7 +37,6 @@ PictureListDialog::PictureListDialog(QWidget *parent) :
 {
     initUI();
     ShowFileType = PictureFile;
-//    IconHelper::Instance()->SetIcon(ui->label_Ico, QChar(0xf03e), 20);//0xf03e
     pshowDlg = new PictureShowDialog();
     connect(pshowDlg, SIGNAL(updateAlbum(int)), this, SLOT(dele_picture(int)));
     connect(pshowDlg, SIGNAL(sig_FullScreen(QString)), this, SLOT(FullScreen(QString)));
@@ -54,36 +54,31 @@ PictureListDialog::PictureListDialog(QString path, QString filter, bool isExport
          QDialog(parent), ui(new Ui::PictureListDialog), isDeltAll(false)
 {
     initUI();
-    ShowFileType = TextFile;
     suffix = filter.mid(1);
-    if(isExport)
-    {
-        ui->label_Ico->setStyleSheet("image: url(:/res/images/export.png)");
-        ui->actionExOrImFiles->setText(tr("Export Udisk"));
-        ui->label_Title->setText(tr("Export Udisk"));
-    }
-    else
-    {
-        ui->label_Ico->setStyleSheet( "image: url(:/res/images/import.png)");
-        ui->actionExOrImFiles->setText(tr("Import Camera"));
-        ui->label_Title->setText(tr("Import Camera"));
-    }
-
     this->isExport = isExport;
+    pshowDlg = new PictureShowDialog();
+    connect(pshowDlg, SIGNAL(updateAlbum(int)), this, SLOT(dele_picture(int)));
+    connect(pshowDlg, SIGNAL(sig_FullScreen(QString)), this, SLOT(FullScreen(QString)));
+    connect(pshowDlg, SIGNAL(sig_NormalScreen(QString)), this, SLOT(NormalScreen(QString)));
+    qDebug() << path;
     QString expFile(path);
     QDir expFileDir(expFile, filter);
+    if(expFileDir.isEmpty())
+    {
+        qDebug("empty");
+    }
     QFileInfoList list = expFileDir.entryInfoList();
-
+    qDebug("list = %d", list.count());
     for(int nIndex = 0; nIndex < list.size(); ++nIndex)
     {
         //获取图片
         QFileInfo fileInfo = list.at(nIndex);
         QString fileName = fileInfo.completeBaseName();
-        //basename();
-        dispFile(fileName);
+        UpdateThumb(path, fileName);
     }
 
     selfileNames.clear();
+
 }
 
 void PictureListDialog::initUI()
@@ -114,7 +109,6 @@ void PictureListDialog::initUI()
     ui->listWidget->setSelectionMode(QAbstractItemView::SingleSelection);   //选择模式有:ExtendedSelection 按住ctrl多选, SingleSelection 单选 MultiSelection 点击多选 ContiguousSelection 鼠标拖拉多选
     ui->listWidget->setSelectionBehavior(QAbstractItemView::SelectItems);
 
-   // showThumbnail();
     connect(ui->pushButton_Close, SIGNAL(clicked()), this, SLOT(hide()));
 
 
@@ -131,20 +125,6 @@ QStringList PictureListDialog::getImgFile(QString Path)
     dir.setSorting(QDir::Size);
     QStringList fileList = dir.entryList();
     return fileList;
-}
-//显示缩略图函数
-void PictureListDialog::showThumbnail()
-{
-    QStringList fileList = getImgFile(PICPATH);
-    int num = fileList.count();
-    qDebug("num = %d", num);
-    for(int i = 0; i < num; i ++)
-    {
-        //设置item项的图标和名称，通过filelist获取每个文件的名称
-            //QIcon(":/res/images/zoom.jpg")
-        QListWidgetItem *picItem = new QListWidgetItem(QIcon(":/res/images/zoom.jpg"), fileList.at(i));
-        ui->listWidget->insertItem(i, picItem);
-    }
 }
 
 void PictureListDialog::deleteItems()
@@ -220,13 +200,12 @@ void PictureListDialog::mousePressEvent(QMouseEvent *e)
 
 void PictureListDialog::mouseReleaseEvent(QMouseEvent *)
 {
-
 #ifdef QDEBUG_CAMCONTROL
     qDebug() << "release" << e->globalPos();
 #endif
 }
 
-void PictureListDialog::UpdateThumb(QString filepath,QString filename)
+void PictureListDialog::UpdateThumb(QString filepath, QString filename)
 {
     ShowFileType = PictureFile;
     pItem = new QListWidgetItem(QIcon(filepath + filename), filename);
@@ -235,20 +214,6 @@ void PictureListDialog::UpdateThumb(QString filepath,QString filename)
     ui->listWidget->insertItem(ui->listWidget->count()+1, pItem);
     qApp->processEvents();
 }
-
-void PictureListDialog::dispFile(QString filename)
-{
-    ShowFileType = TextFile;
-    pItem = new QListWidgetItem(QIcon(":/res/images/file32.png"), filename);
-    //设置单元项的宽度和高度
-    pItem->setSizeHint(QSize(32, 32));
-    ui->listWidget->insertItem(ui->listWidget->count() + 1, pItem);
-    ui->listWidget->setViewMode(QListView::ListMode);
-    ui->listWidget->setSelectionMode(QAbstractItemView::MultiSelection);
-    ui->listWidget->setFlow(QListView::TopToBottom);
-    ui->listWidget->setSpacing(2);
-}
-
 
 void PictureListDialog::on_listWidget_customContextMenuRequested(QPoint )
 {
@@ -263,6 +228,7 @@ void PictureListDialog::on_listWidget_customContextMenuRequested(QPoint )
         menu.addSeparator();
         menu.addAction(ui->actionDelt);
         menu.addAction(ui->actionDeleteAll);
+        menu.addAction(ui->actionRename);
     }
 
     else
@@ -318,16 +284,9 @@ void PictureListDialog::on_actionDelt_triggered()
 
 void PictureListDialog::on_listWidget_itemDoubleClicked(QListWidgetItem* item)
 {
-    if(ShowFileType == TextFile)
-        return;
-    //1. 双击缩略图，弹出新的对话窗用来显示图片
-    //PictureShowDialog showDialog;
-
-    //2. listWidget清除被选框
     ui->listWidget->clearSelection();
     QString fileName = item->text();
-    //3. listwidget传递参数给showdialog
-    pshowDlg->passValue(PICPATH + fileName, ui->listWidget);
+    pshowDlg->passValue(THUMBPATH + fileName, ui->listWidget);
     pshowDlg->exec();
 }
 
@@ -394,4 +353,18 @@ void PictureListDialog::on_actionDeleteAll_triggered()
     isDeltAll = false;
     ui->listWidget->setSelectionBehavior(QAbstractItemView::SelectItems);
     ui->listWidget->setSelectionMode(QAbstractItemView::SingleSelection);
+}
+
+void PictureListDialog::on_actionRename_triggered()
+{
+    InputDialog input;
+    bool is = input.exec();
+    if(is) {
+        qDebug() << ui->listWidget->currentItem()->text();
+        qDebug() << input.inputFileName();
+        ui->listWidget->currentItem()->setText(input.inputFileName());
+
+    } else {
+
+    }
 }
