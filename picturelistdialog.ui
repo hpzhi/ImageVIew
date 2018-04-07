@@ -799,18 +799,6 @@ background-color: rgb(251, 255, 255);
         <property name="sortingEnabled">
          <bool>true</bool>
         </property>
-        <item>
-         <property name="text">
-          <string>New Item</string>
-         </property>
-         <property name="icon">
-          <iconset resource="resource.qrc">
-           <normaloff>:/Images/0001.png</normaloff>:/Images/0001.png</iconset>
-         </property>
-         <property name="flags">
-          <set>ItemIsSelectable|ItemIsEditable|ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-         </property>
-        </item>
        </widget>
       </item>
      </layout>
@@ -873,8 +861,6 @@ background-color: rgb(251, 255, 255);
    </property>
   </action>
  </widget>
- <resources>
-  <include location="resource.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

@@ -23,7 +23,7 @@ protected:
     void resizeEvent(QResizeEvent *);
     void mouseMoveEvent(QMouseEvent *e);
     void mousePressEvent(QMouseEvent *e);
-    void mouseReleaseEvent(QMouseEvent *e);
+    void mouseReleaseEvent(QMouseEvent*e);
 
 signals:
     void sendSignal(int );

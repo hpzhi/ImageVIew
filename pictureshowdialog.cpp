@@ -21,9 +21,13 @@
 #define FULL 3
 #define NORMAL 4
 #define DELE 5
-
+#ifdef MAC_OS_X_VERSION_10_13_4
+const char* PICPATH = "/Users/hpzh/home/local/qtdir/ImageVIew/Images/";
+const char* THUMBPATH = "/Users/hpzh/home/local/qtdir/ImageVIew/Images/thumb";
+#elif
 const char* PICPATH = "../ImageVIew/Images/";
 const char* THUMBPATH = "../ImageVIew/Images/thumb";
+#endif
 const int SCREENW = 1920;
 
 #define ImageTitle "picture"

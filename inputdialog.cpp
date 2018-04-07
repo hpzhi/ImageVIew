@@ -13,7 +13,6 @@ InputDialog::~InputDialog()
     delete ui;
 }
 
-
 QString InputDialog::inputFileName() const
 {
     return ui->lineEdit->text();

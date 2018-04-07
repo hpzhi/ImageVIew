@@ -45,6 +45,7 @@ private:
     int ShowFileType;
     QStringList selfileNames;
     QString suffix;
+    QFileInfoList fileList;
 
 private slots:
 

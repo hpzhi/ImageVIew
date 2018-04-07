@@ -13,7 +13,9 @@
 #include <stdio.h>
 #include "common.h"
 #include "inputdialog.h"
-
+#ifdef MAC_OS_X_VERSION_10_13_4
+#include <QUrl>
+#endif
 #define test
 #ifndef test
 #include "iconhelper.h"
@@ -62,23 +64,25 @@ PictureListDialog::PictureListDialog(QString path, QString filter, bool isExport
     connect(pshowDlg, SIGNAL(sig_NormalScreen(QString)), this, SLOT(NormalScreen(QString)));
     qDebug() << path;
     QString expFile(path);
+    QDir dir;
+    qDebug() << dir.cdUp();
     QDir expFileDir(expFile, filter);
     if(expFileDir.isEmpty())
     {
         qDebug("empty");
     }
-    QFileInfoList list = expFileDir.entryInfoList();
-    qDebug("list = %d", list.count());
-    for(int nIndex = 0; nIndex < list.size(); ++nIndex)
+    fileList = expFileDir.entryInfoList();
+    qDebug() << expFileDir.path();
+    qDebug("list = %d", fileList.count());
+    for(int nIndex = 0; nIndex < fileList.size(); ++nIndex)
     {
         //获取图片
-        QFileInfo fileInfo = list.at(nIndex);
+        QFileInfo fileInfo = fileList.at(nIndex);
         QString fileName = fileInfo.completeBaseName();
         UpdateThumb(path, fileName);
     }
 
     selfileNames.clear();
-
 }
 
 void PictureListDialog::initUI()
@@ -108,7 +112,6 @@ void PictureListDialog::initUI()
     //设置QListWidget中的单元项初始选择模式为单选
     ui->listWidget->setSelectionMode(QAbstractItemView::SingleSelection);   //选择模式有:ExtendedSelection 按住ctrl多选, SingleSelection 单选 MultiSelection 点击多选 ContiguousSelection 鼠标拖拉多选
     ui->listWidget->setSelectionBehavior(QAbstractItemView::SelectItems);
-
     connect(ui->pushButton_Close, SIGNAL(clicked()), this, SLOT(hide()));
 
 
@@ -357,13 +360,17 @@ void PictureListDialog::on_actionDeleteAll_triggered()
 
 void PictureListDialog::on_actionRename_triggered()
 {
+    int itemRow = ui->listWidget->currentIndex().row();
+
     InputDialog input;
     bool is = input.exec();
     if(is) {
-        qDebug() << ui->listWidget->currentItem()->text();
-        qDebug() << input.inputFileName();
         ui->listWidget->currentItem()->setText(input.inputFileName());
-
+        QDir dir(PICPATH);
+        if(dir.isAbsolute())
+            qDebug("abs");
+         QString fileName = input.inputFileName() + ".png";
+         dir.rename(fileList.at(itemRow).fileName(), fileName);
     } else {
 
     }
